@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">TestTask</string>
+    <string name="start">Start</string>
+    <string name="refresh">Refresh</string>
+    <string name="upload_user_posts">Upload Users\' posts</string>
+    <string name="refresh_user_posts">Sorry! We can load page. Check the Internet, please! :* </string>
+    <string name="titleText">sunt aut facere repellat provident occaecati excepturi optio reprehenderit</string>
+    <string name="mainText">quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto</string>
+</resources>
