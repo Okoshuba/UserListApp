@@ -43,7 +43,7 @@ class RecyclerActivity: AppCompatActivity(), Listener {
                 progressBar.visibility = View.GONE
                 recyclerView.visibility = View.VISIBLE
 
-                d("Check", "onResponse: ${response.body()!![0].name}")
+                //d("Check", "onResponse: ${response.body()!![0].name}")
             }
 
             override fun onFailure(call: Call<List<Users>>, t: Throwable) {
@@ -62,13 +62,13 @@ class RecyclerActivity: AppCompatActivity(), Listener {
 
     //Обработчик нажатия на элемент коллекции
     @SuppressLint("ObsoleteSdkInt")
-    override fun onItemClickListener(position: Int, nameRV: TextView) {
+    override fun onItemClickListener(position: Int, firstname: TextView) {
 
         val intent = Intent(this, UsersPostsActivity::class.java)
         startActivity(intent)
 
         //Анимация
-        val p1 = Pair.create(nameRV as View, "authorNameTN")
+        val p1 = Pair.create(firstname as View, "authorNameTN")
         val p2 = Pair.create(emailUser as View, "emailTN")
         val p3 = Pair.create(phoneUser as View, "phoneTN")
         val p4 = Pair.create(website as View, "websiteTN")
