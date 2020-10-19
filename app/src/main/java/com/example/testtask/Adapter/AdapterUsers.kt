@@ -9,9 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.testtask.Listener.Listener
 import com.example.testtask.Repository.Users
-import kotlinx.android.synthetic.main.item_recycler_view.view.emailUser
-import kotlinx.android.synthetic.main.item_recycler_view.view.phoneUser
-import kotlinx.android.synthetic.main.item_recycler_view.view.website
+import kotlinx.android.synthetic.main.item_recycler_view.view.*
 
 class AdapterUsers(private val context: Context,
                    private val users: List<Users>,
@@ -34,18 +32,17 @@ class AdapterUsers(private val context: Context,
         holder.websiteUser.text = user.website
 
 
-        holder.itemView.setOnClickListener {callback.onItemClickListener(position, holder.firstname)}
+        holder.itemView.setOnClickListener {callback.onItemClickListener(position)}
 
     }
 
     class ViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView){
 
-        val firstname: TextView = itemView.findViewById(com.example.testtask.R.id.nameUser)
+        val firstname: TextView = itemView.nameUser
         val emailUser: TextView = itemView.emailUser
         val phoneUser: TextView = itemView.phoneUser
         val websiteUser: TextView = itemView.website
 
-        //val innerRecyclerView: RecyclerView = itemView.postsRecyclerView
-
+        val innerRecyclerView: RecyclerView = itemView.postsRecyclerView
     }
 }

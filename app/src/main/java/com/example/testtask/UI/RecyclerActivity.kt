@@ -1,11 +1,9 @@
 package com.example.testtask.UI
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log.d
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.testtask.Adapter.AdapterUsers
@@ -17,20 +15,18 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-import androidx.core.util.Pair
-import kotlinx.android.synthetic.main.item_recycler_view.*
-import androidx.core.app.ActivityOptionsCompat
-import android.os.Build
-import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.example.testtask.R
-import org.w3c.dom.Text
+import com.example.testtask.Adapter.PostsAdapter
+import com.example.testtask.Repository.Posts
+import kotlinx.android.synthetic.main.item_recycler_view.*
+
 
 class RecyclerActivity: AppCompatActivity(), Listener {
 
-     override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.recycler_view_layout)
+        setContentView(com.example.testtask.R.layout.recycler_view_layout)
 
         fetchData()
     }
@@ -55,36 +51,49 @@ class RecyclerActivity: AppCompatActivity(), Listener {
 
     //Метод, который формирует список пользователей в recyclerView
     private fun showData(users: List<Users>) {
-        val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
+        val recyclerView: RecyclerView = findViewById(com.example.testtask.R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = AdapterUsers(this, users, this)
     }
 
     //Обработчик нажатия на элемент коллекции
-    @SuppressLint("ObsoleteSdkInt")
-    override fun onItemClickListener(position: Int, firstname: TextView) {
+    override fun onItemClickListener(position: Int) {
 
-        val intent = Intent(this, UsersPostsActivity::class.java)
-        startActivity(intent)
+        fetchPosts()
 
-        //Анимация
-        val p1 = Pair.create(firstname as View, "authorNameTN")
-        val p2 = Pair.create(emailUser as View, "emailTN")
-        val p3 = Pair.create(phoneUser as View, "phoneTN")
-        val p4 = Pair.create(website as View, "websiteTN")
-
-        val optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(this, p1, p2, p3, p4)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            startActivity(intent,optionsCompat.toBundle())
-        }
-        else
-            startActivity(intent)
+        val isShown = postsRecyclerView.visibility == View.VISIBLE
+        postsRecyclerView.visibility = if (isShown) View.GONE else View.VISIBLE
     }
 
     //Переход на активити перезагрузки данных из-за ошибки
     fun toRefreshActivity(){
         val intent = Intent(this, RefreshActivity::class.java)
         startActivity(intent)
+    }
+
+    private fun fetchPosts() {
+        RetrofitBuilder.newApiPost.getPosts().enqueue(object: Callback<List<Posts>> {
+
+            override fun onResponse(call: Call<List<Posts>>, response: Response<List<Posts>>) {
+
+                showPost(response.body()!!)
+                //d("Check", "onResponse: ${response.body()!![0].title}")
+            }
+            override fun onFailure(call: Call<List<Posts>>, t: Throwable) {
+                //d("Check", "onFailure: ${t.message}")
+                val text = "Data downloader error. Please check the Internet"
+                val duration = Toast.LENGTH_SHORT
+                val toast = Toast.makeText(applicationContext, text, duration)
+                toast.show()
+            }
+        })
+    }
+
+    //Метод, который формирует список постов пользователей в recyclerView
+    private fun showPost (posts: List<Posts>) {
+        postsRecyclerView.apply {
+            layoutManager = LinearLayoutManager(this@RecyclerActivity)
+            adapter = PostsAdapter(posts)
+        }
     }
 }
