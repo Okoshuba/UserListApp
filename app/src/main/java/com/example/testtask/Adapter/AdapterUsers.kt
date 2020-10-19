@@ -31,9 +31,7 @@ class AdapterUsers(private val context: Context,
         holder.phoneUser.text = user.phone
         holder.websiteUser.text = user.website
 
-
         holder.itemView.setOnClickListener {callback.onItemClickListener(position)}
-
     }
 
     class ViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView){

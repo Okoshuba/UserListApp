@@ -18,6 +18,7 @@ import retrofit2.Response
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.testtask.Adapter.PostsAdapter
+import com.example.testtask.R
 import com.example.testtask.Repository.Posts
 import kotlinx.android.synthetic.main.item_recycler_view.*
 
@@ -51,8 +52,8 @@ class RecyclerActivity: AppCompatActivity(), Listener {
 
     //Метод, который формирует список пользователей в recyclerView
     private fun showData(users: List<Users>) {
-        val recyclerView: RecyclerView = findViewById(com.example.testtask.R.id.recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(this@RecyclerActivity)
         recyclerView.adapter = AdapterUsers(this, users, this)
     }
 
